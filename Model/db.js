@@ -17,9 +17,9 @@ const adminschema = new mongoose.Schema({
 });
 
 
-const VendorModel = mongoose.model("students", vendorschema);
-const UserModel = mongoose.model("students", userschema);
-const AdminModel = mongoose.model("students", adminschema);
+const VendorModel = mongoose.model("vendors", vendorschema);
+const UserModel = mongoose.model("users", userschema);
+const AdminModel = mongoose.model("admins", adminschema);
 
 const addVendorToMongoose = async (data) => {
   try {
