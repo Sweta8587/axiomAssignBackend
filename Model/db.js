@@ -17,6 +17,8 @@ const adminschema = new mongoose.Schema({
 });
 
 
+
+
 const VendorModel = mongoose.model("vendors", vendorschema);
 const UserModel = mongoose.model("users", userschema);
 const AdminModel = mongoose.model("admins", adminschema);
@@ -90,7 +92,7 @@ const findUserbyQuery = async (query) => {
 
   const findVendorbyQuery = async (query) => {
     try {
-      const vendorwithgivenQuery = await AdminModel.findOne(query)
+      const vendorwithgivenQuery = await VendorModel.findOne(query)
       if (vendorwithgivenQuery) {
         console.log("for query ", query, " User Id is ", vendorwithgivenQuery.UserId," pass is: ",vendorwithgivenQuery.Password);
         return vendorwithgivenQuery;

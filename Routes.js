@@ -14,30 +14,26 @@ userRouter = express.Router();
 
 userRouter.post('/logAsVendor', async (req, res) => {
     try {
-        const { username, password } = req.body;
         // Check if the user exists
-        const user = await findVendorbyQuery({ UserId: username });
+        const user = await findVendorbyQuery({ UserId: req.body.UserId });
         if (!user) {
-            return res.status(401).json("notexist");
+            return res.status(404).json("notexist");
         }
         else {
             const pass = user.Password;
 
-        if (!password == pass) {
-            return res.status(401).json({ message: 'Invalid username or password' });
+            // Compare the provided password with the password in the database
+            if (!password == pass) {
+                return res.status(401).json({ message: 'Invalid username or password' });
+            }
         }
-        }
-
-        // Compare the provided password with the password in the database
-        
-
-
     } catch (error) {
         console.log(error);
         res.status(500).send("Internal server error while getting student query details")
 
     }
 })
+
 
 userRouter.get('/logAsUser', async (req, res) => {
     try {
@@ -103,15 +99,14 @@ userRouter.post('/SignUpAsUser/', (req, res) => {
 
 userRouter.post('/SignUpAsVendor', async (req, res) => {
     try {
-        const { username, password } = req.body;
         // Check if the user exists
-        const user = await findVendorbyQuery({ UserId: username });
+        const user = await findVendorbyQuery({ UserId: req.body.UserId });
         if (!user) {
-            addVendorToMongoose(req.body);
+            await addVendorToMongoose(req.body);
             res.status(200).send("New Vendor register request has been sent");
         }
         else {
-            res.json("exist");
+            res.json("Username already exists");
         }
 
     } catch (error) {
@@ -120,15 +115,5 @@ userRouter.post('/SignUpAsVendor', async (req, res) => {
     }
 })
 
-
-userRouter.post('/SignUpAsVendor/', (req, res) => {
-    try {
-        addToMongoose(req.body);
-        res.status(200).send("New Vendor register request has been sent");
-    } catch (error) {
-        console.log(error);
-        res.status(500).send("Error while registering new Vendor");
-    }
-})
 
 module.exports = { userRouter }
