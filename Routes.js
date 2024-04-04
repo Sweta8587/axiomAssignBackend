@@ -6,6 +6,8 @@ const {
     addAdminToMongoose,
     addVendorToMongoose,
     addUserToMongoose,
+    addProductToMongoose,
+    findProductbyQuery,
 } = require('./Model/db');
 
 
@@ -107,6 +109,30 @@ userRouter.post('/SignUpAsVendor', async (req, res) => {
         }
 
     } catch (error) {
+        console.log(error);
+        res.status(500).send("Internal server error while getting student query details")
+    }
+})
+
+userRouter.post('/SectionToShowItem', async (req, res) => {
+    try {
+            await addProductToMongoose(req.body);
+            res.status(200).send("product added successfully");
+        }
+
+    catch (error) {
+        console.log(error);
+        res.status(500).send("Internal server error while getting student query details")
+    }
+})
+
+userRouter.get('/SectionToShowItem', async (req, res) => {
+    try {
+            await addProductToMongoose(req.body);
+            res.status(200).send("product added successfully");
+        }
+
+    catch (error) {
         console.log(error);
         res.status(500).send("Internal server error while getting student query details")
     }

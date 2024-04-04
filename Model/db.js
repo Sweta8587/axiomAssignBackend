@@ -20,11 +20,30 @@ const adminschema = new mongoose.Schema({
 });
 
 
+const productschema = new mongoose.Schema({
+  ProductName: {type: String},
+  ProductPrice: { type: String },
+});
+
+
 
 
 const VendorModel = mongoose.model("vendors", vendorschema);
 const UserModel = mongoose.model("users", userschema);
 const AdminModel = mongoose.model("admins", adminschema);
+const ProductModel = mongoose.model("products", productschema);
+
+const addProductToMongoose = async (data) => {
+  try {
+    var new_product = new ProductModel({
+      ProductName: data.ProductName,
+      ProductPrice: data.ProductPrice
+    });
+    await new_product.save();
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const addVendorToMongoose = async (data) => {
   try {
@@ -111,6 +130,20 @@ const findUserbyQuery = async (query) => {
     }
   }
 
+  const findProductbyQuery = async (query) => {
+    try {
+      const vendorwithgivenQuery = await ProductModel.findOne(query)
+      if (productwithgivenQuery) {
+        return productwithgivenQuerywithgivenQuery;
+      } else {
+        console.log(query, "is not added in the product list");
+      }
+    } catch (error) {
+      console.log(error)
+  
+    }
+  }
+
 
 
 
@@ -122,4 +155,6 @@ module.exports = {
     addAdminToMongoose,
     addVendorToMongoose,
     addUserToMongoose,
+    addProductToMongoose,
+    findProductbyQuery,
 };
