@@ -12,7 +12,7 @@ const {
 userRouter = express.Router();
 
 
-userRouter.post('/logAsVendor', async (req, res) => {
+userRouter.get('/logAsVendor', async (req, res) => {
     try {
         // Check if the user exists
         const user = await findVendorbyQuery({ UserId: req.body.UserId });
