@@ -12,10 +12,11 @@ const {
 userRouter = express.Router();
 
 
-userRouter.get('/logAsVendor', async (req, res) => {
+userRouter.post('/logAsVendor', async (req, res) => {
     try {
         // Check if the user exists
         const user = await findVendorbyQuery({ UserId: req.body.UserId });
+        console.log(user);
         if (!user) {
             return res.status(404).json("notexist");
         }
