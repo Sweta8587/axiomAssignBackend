@@ -2,16 +2,19 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const vendorschema = new mongoose.Schema({
+    Name: {type: String},
   UserId: { type: String },
   Password: { type: String }
 });
 
 const userschema = new mongoose.Schema({
+    Name: {type: String},
     UserId: { type: String },
     Password: { type: String }
 });
 
 const adminschema = new mongoose.Schema({
+    Name: {type: String},
     UserId: { type: String },
     Password: { type: String }
 });
@@ -26,6 +29,7 @@ const AdminModel = mongoose.model("admins", adminschema);
 const addVendorToMongoose = async (data) => {
   try {
     var new_registration = new VendorModel({
+      Name:data.Name,
       UserId: data.UserId,
       Password: data.Password
     });
@@ -38,6 +42,7 @@ const addVendorToMongoose = async (data) => {
 const addAdminToMongoose = async (data) => {
     try {
       var new_registration = new AdminModel({
+        Name:data.Name,
         UserId: data.UserId,
         Password: data.Password
       });
@@ -50,6 +55,7 @@ const addAdminToMongoose = async (data) => {
 const addUserToMongoose = async (data) => {
     try {
       var new_registration = new UserModel({
+        Name:data.Name,
         UserId: data.UserId,
         Password: data.Password
       });

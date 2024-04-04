@@ -14,27 +14,24 @@ userRouter = express.Router();
 
 userRouter.post('/logAsVendor', async (req, res) => {
     try {
-        // Check if the user exists
-        const user = await findVendorbyQuery({ UserId: req.body.UserId });
-        console.log(user);
-        if (!user) {
-            return res.status(404).json("notexist");
-        }
-        else {
-            const pass = user.Password;
-
-            // Compare the provided password with the password in the database
-            if (!password == pass) {
-                return res.status(401).json({ message: 'Invalid username or password' });
-            }
-        }
+      // Check if the user exists
+      const user = await findVendorbyQuery({ UserId: req.body.UserId });
+      console.log(user); // For debugging purposes, can be commented out in production
+      if (!user) {
+        return res.status(404).json("Vendor not found");
+      }
+  
+      // Compare the provided password with the password in the database
+      const pass = user.Password;
+      if(pass===req.body.Password){
+        res.status(200).json(user);
+      }
     } catch (error) {
-        console.log(error);
-        res.status(500).send("Internal server error while getting student query details")
-
+      console.error(error); // Log the complete error for debugging
+      res.status(500).json({ message: 'Internal server error during login' });
     }
-})
-
+  });
+  
 
 userRouter.get('/logAsUser', async (req, res) => {
     try {
@@ -50,7 +47,7 @@ userRouter.get('/logAsUser', async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.status(500).send("Internal server error while getting student query details")
+        res.status(500).send("Internal server error while getting query details")
 
     }
 
@@ -64,8 +61,7 @@ userRouter.get('/logAsAdmin', async (req, res) => {
         if (studentbyQuery) {
             res.status(200).send({ "Code": studentbyQuery.UserRefrralCode, "ReferredBy": studentbyQuery.FirstName + " " + studentbyQuery.LastName });
         } else {
-            res.status(404).send("This is not a valid referral code");
-            console.log("Invalid referral Code Applied")
+            res.status(404).send("This is not a valid ");
         }
 
     } catch (error) {
